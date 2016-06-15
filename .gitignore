@@ -25,6 +25,7 @@ node_modules
 
 # Build files
 public
+build
 
 # Others git subdirectory
 wiki

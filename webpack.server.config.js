@@ -3,11 +3,11 @@ const path = require('path')
 module.exports = {
   entry: {
     index: [
-      './app/Component.js',
+      './app/index.js',
     ],
   },
   output: {
-    path: path.join(__dirname),
+    path: path.join(__dirname, 'build'),
     filename: 'index.js',
     publicPath: '/',
     library: 'testcssmodulesr',
@@ -19,6 +19,11 @@ module.exports = {
     'draft-js': 'draft-js',
     lodash: 'lodash',
   },
+  resolve: {
+    root: [
+      path.resolve('./app/'),
+    ],
+  },
   module: {
     loaders: [{
       test: /\.js$/,
@@ -27,8 +32,12 @@ module.exports = {
         path.join(__dirname, '/app'),
       ],
     }, {
-      test: /\.css$/,
-      loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+      test: /\.s?css$/, // CSS should begins with '.' (./or../)
+      loaders: [
+        'style',
+        'css?modules&localIdentName=[path]_[local]__[hash:base64:5]',
+        'sass',
+      ],
     }],
   },
 }

@@ -33,16 +33,18 @@ module.exports = {
   devtool: dev ? 'eval' : '',
   entry: {
     test: getEntrySources([
-      './app/index',
-    ]),
-    server: getEntrySources([
-      './app/serverSide',
+      './app/client',
     ]),
   },
   output: {
     path: path.join(__dirname, 'public'),
     filename: '[name].js',
     publicPath: '/',
+  },
+  resolve: {
+    root: [
+      path.resolve('./app/'),
+    ],
   },
   plugins: getPlugins([]),
   module: {
@@ -51,8 +53,12 @@ module.exports = {
       loaders: getLoaders([]),
       include: path.join(__dirname, 'app'),
     }, {
-      test: /\.css$/, // CSS should begins with '.' (./or../)
-      loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+      test: /\.s?css$/, // CSS should begins with '.' (./or../)
+      loaders: [
+        'style',
+        'css?modules&localIdentName=[path]_[local]__[hash:base64:5]',
+        'sass',
+      ],
     }],
   },
 }
